@@ -37,6 +37,7 @@ source_group(
 )
 
 # dependencies
+set(USING_VCPKG TRUE)
 find_package(spdlog CONFIG REQUIRED)
 find_dependency_path(DKUtil include/DKUtil/Logger.hpp)
 find_dependency_path(CommonLibSF CommonLibSF/include/SFSE/SFSE.h)
