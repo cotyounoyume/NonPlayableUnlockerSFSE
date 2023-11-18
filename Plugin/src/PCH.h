@@ -85,6 +85,7 @@
 #include <syncstream>
 #include <system_error>
 #include <thread>
+#include <toml++/toml.h>
 #include <tuple>
 #include <type_traits>
 #include <typeindex>
@@ -96,10 +97,12 @@
 #include <variant>
 #include <vector>
 #include <version>
-
 // Clib
 #include "RE/Starfield.h"
+#include "REL/Relocation.h"
 #include "SFSE/SFSE.h"
+
+namespace logger = SFSE::log;
 
 // winnt
 #include <ShlObj_core.h>

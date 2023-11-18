@@ -1,29 +1,14 @@
-/* 
- * https://github.com/Starfield-Reverse-Engineering/CommonLibSF
- * This plugin template links against CommonLibSF
- */
-
+#include "PCH.h"
+#include "Event.h"
 #include "DKUtil/Hook.hpp"
 
-namespace
+// SFSE message listener, use this to do stuff at specific moments during runtime
+void Listener(SFSE::MessagingInterface::Message* message) noexcept
 {
-	void MessageCallback(SFSE::MessagingInterface::Message* a_msg) noexcept
-	{
-		switch (a_msg->type) {
-		case SFSE::MessagingInterface::kPostLoad:
-			{
-			}
-			break;
-		default:
-			break;
-		}
+	if (message->type == SFSE::MessagingInterface::kPostLoad) {
+		RE::UI::GetSingleton()->RegisterSink(Events::EventHandlerForMenu::GetSingleton());
 	}
 }
-
-/**
-// for preload plugins
-void SFSEPlugin_Preload(SFSE::LoadInterface* a_sfse);
-/**/
 
 DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 {
@@ -35,12 +20,8 @@ DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 	DKUtil::Logger::Init(Plugin::NAME, std::to_string(Plugin::Version));
 	INFO("{} v{} loaded", Plugin::NAME, Plugin::Version);
 
-	// do stuff
-	// this allocates 1024 bytes for development builds, you can
-	// adjust the value accordingly with the log result for release builds
-	//SFSE::AllocTrampoline(1 << 10);
-
-	SFSE::GetMessagingInterface()->RegisterListener(MessageCallback);
+	if (const auto messaging{ SFSE::GetMessagingInterface() }; !messaging->RegisterListener(Listener))
+		return false;
 
 	return true;
 }
