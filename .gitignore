@@ -4,4 +4,6 @@
 *.zip
 *.timestamp
 deploy-*.ps1
+build/
+Plugin/dist
 aaacmake.bat
